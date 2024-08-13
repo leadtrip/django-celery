@@ -1,0 +1,9 @@
+pip freeze > requirements.txt
+docker compose up -d --build
+docker rmi dcelery-django dcelery-celery redis
+
+# execute a task from the command line of the django container
+docker exec -it django /bin/sh
+./manage.py shell
+from newapp.tasks import sharedtask
+sharedtask.delay()
